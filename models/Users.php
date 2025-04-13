@@ -20,6 +20,8 @@ class User{
     }
 }
 
+// Strategy Pattern
+
 interface UserRegistration{
     public function register(User $user);
 }

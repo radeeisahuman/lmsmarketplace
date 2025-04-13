@@ -2,6 +2,8 @@
 
 include 'Course.php';
 
+// Observer
+
 interface EnrollmentObserver{
     public function update(Course $course);
 }
