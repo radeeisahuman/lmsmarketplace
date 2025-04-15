@@ -65,6 +65,7 @@ if(isset($courses)){
                 <input name="course_id" type="hidden" value="<?php echo $course['id']; ?>">
                 <input type="submit" value="Edit Course">
             </form>
+            <hr>
             <?php
         }
     }
