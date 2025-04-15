@@ -1,5 +1,7 @@
 <?php
 
+include 'Topic.php';
+
 // Factory and Decorator
 
 interface Course{
@@ -47,7 +49,7 @@ class Assignment extends CourseAddOns{
     }
 
     public function addAssignment(){
-        echo "You added a Assignment";
+        echo "You added an Assignment";
     }
 }
 
