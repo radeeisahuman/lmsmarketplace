@@ -1,46 +1,67 @@
 <?php
 
 class User{
-    private string $id;
     private string $name;
     private string $email;
     private string $password;
     private string $role;
-    private DateTime $createdAt;
-    private DateTime $updatedAt;
 
-    public function __construct(string $id, string $name, string $password, string $role, DateTime $createdAt, DateTime $updatedAt){
-        $this -> id = $id;
+    public function __construct(string $name, string $password, string $email, string $role){
         $this -> name = $name;
         $this -> email = $email;
         $this -> password = $password;
         $this -> role = $role;
-        $this -> createdAt = $createdAt;
-        $this -> updatedAt = $updatedAt;
+    }
+
+    public function getName(){
+        return $this->name;
+    }
+
+    public function getEmail(){
+        return $this->email;
+    }
+
+    public function getPassword(){
+        return $this->password;
+    }
+
+    public function getRole(){
+        return $this->role;
     }
 }
 
 // Strategy Pattern
 
-interface UserRegistration{
-    public function register(User $user);
-}
+abstract class UserRegistration{
+    abstract public function register(User $user, PDO $db);
 
-class InstructorRegistration implements UserRegistration{
-    public function execute(User $user){
-        echo 'Created New Instructor: ' . $user -> name;
+    public function insert(PDO $db, User $user): void{
+        $stmt = $db->prepare("INSERT INTO users (name, email, password, role) VALUES(:name, :email, :password, :role)");
+
+        $stmt -> execute([
+            ':name' => $user->getName(),
+            ':email' => $user->getEmail(),
+            ':password' => $user->getPassword(),
+            ':role' => $user->getRole()
+        ]);
     }
 }
 
-class StudentRegistration implements UserRegistration{
-    public function execute(User $user){
-        echo 'Created New Learner: ' . $user -> name;
+class InstructorRegistration extends UserRegistration{
+    public function register(User $user, PDO $db){
+        $this -> insert($db, $user);
     }
 }
 
-class AdminRegistration implements UserRegistration{
-    public function execute(User $user){
-        echo 'Created New Admin: ' . $user -> name;
+class StudentRegistration extends UserRegistration{
+    public function register(User $user, PDO $db){
+        $this -> insert($db, $user);
+    }
+}
+
+class AdminRegistration extends UserRegistration{
+    public function register(User $user, PDO $db){
+        $this -> insert($db, $user);
     }
 }
 
@@ -48,12 +69,12 @@ class RegistrationContext{
     private UserRegistration $registration;
 
     public function registrationRole(UserRegistration $reg){
-        $this -> registration = $registration;
+        $this -> registration = $reg;
     }
 
-    public function register(){
+    public function registerUser(User $user, PDO $db){
         if(isset($this -> registration)){
-            $this -> registration -> execute;
+            $this -> registration -> register($user, $db);
         } else {
             echo "No registration mode set";
         }
