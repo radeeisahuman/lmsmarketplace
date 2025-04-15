@@ -39,14 +39,14 @@ $stmt->execute([
 $currentuser = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if($currentuser['role'] == 'instructor'){
-    $findcourses = $db->prepare("SELECT title, description FROM courses INNER JOIN users on users.id = courses.instructor_id WHERE users.id = :user_id");
+    $findcourses = $db->prepare("SELECT courses.id, courses.title, courses.description FROM courses INNER JOIN users on users.id = courses.instructor_id WHERE users.id = :user_id");
     $findcourses -> execute([
         ':user_id' => $currentuser['id']
     ]);
     $courses = $findcourses -> fetchAll(PDO::FETCH_ASSOC);
     echo "<h2>Displaying your courses</h2>";
 } else if($currentuser['role'] == 'student'){
-    $findcourses = $db->prepare("SELECT title, description FROM courses INNER JOIN enrollments on courses.id = enrollments.course_id WHERE enrollments.student_id=:student_id");
+    $findcourses = $db->prepare("SELECT courses.id, courses.title, courses.description FROM courses INNER JOIN enrollments on courses.id = enrollments.course_id WHERE enrollments.student_id=:student_id");
     $findcourses -> execute([
         ':student_id' => $currentuser['id']
     ]);
@@ -58,7 +58,15 @@ if(isset($courses)){
 
     foreach ($courses as $course){
         echo "<h3>" . $course['title'] . "</h3>";
-        echo "<p>" . $course['description'] . "<p>";
+        echo "<p>" . $course['description'] . "</p>";
+        if ($currentuser['role'] == 'instructor'){
+            ?>
+            <form method="GET" action="edit_course.php">
+                <input name="course_id" type="hidden" value="<?php echo $course['id']; ?>">
+                <input type="submit" value="Edit Course">
+            </form>
+            <?php
+        }
     }
 
 }

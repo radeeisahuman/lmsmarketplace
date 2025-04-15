@@ -96,19 +96,19 @@ abstract class CourseFactory{
 
 class TextCourseFactory extends CourseFactory{
     public function createCourse(): Course{
-        return new TextCourse;
+        return new TextCourse();
     }
 }
 
 class VideoCourseFactory extends CourseFactory{
     public function createCourse(): Course{
-        return new VideoCourse;
+        return new VideoCourse();
     }
 }
 
 class LiveCourseFactory extends CourseFactory{
     public function createCourse(): Course{
-        return new LiveCourse;
+        return new LiveCourse();
     }
 }
 

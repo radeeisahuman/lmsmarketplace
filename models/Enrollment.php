@@ -1,8 +1,5 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Observer
@@ -25,9 +22,9 @@ class Enrollment{
         );
     }
 
-    public function notify($course){
+    public function notify(int $course_id, int $user_id){
         foreach($this->observers as $observer){
-            $observer -> update($course);
+            $observer -> update($course_id, $user_id);
         }
     }
 }
