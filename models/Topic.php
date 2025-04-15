@@ -14,7 +14,7 @@ abstract class TopicBuilder{
         $this->topic = $topic;
     }
 
-    public function ReturnTopic(): Topic{
+    public function returnTopic(): Topic{
         return $this -> topic;
     }
 
@@ -90,5 +90,5 @@ function CreateTopic(TopicBuilder $builder, string $name, string $duration, stri
     $builder -> addDuration($duration);
     $builder -> addContent($content);
 
-    return $builder->ReturnTopic();
+    return $builder->returnTopic();
 }

@@ -4,11 +4,25 @@ include 'Topic.php';
 
 // Factory and Decorator
 
-interface Course{
-    public function create(): void;
+abstract class Course{
+    public int $id;
+    public string $title;
+    public string $description;
+    public int $instructor_id;
+    public string $type;
+
+    public function __construct(int $id, string $title, string $description, int $instructor_id, string $type){
+        $this->id = $id;
+        $this->title = $title;
+        $this->description = $description;
+        $this->instructor_id = $instructor_id;
+        $this->type = $type;
+    }
+    
+    abstract public function create(): void;
 }
 
-class CourseAddOns implements Course{
+class CourseAddOns extends Course{
     protected Course $course;
 
     public function __construct(Course $course){
@@ -53,21 +67,21 @@ class Assignment extends CourseAddOns{
     }
 }
 
-class TextCourse implements Course{
+class TextCourse extends Course{
     public function create(): void{
-        echo "You created a text course";
+        $this->type="text";
     }
 }
 
-class VideoCourse implements Course{
+class VideoCourse extends Course{
     public function create(): void{
-        echo "You created a video course";
+        $this->type="video";
     }
 }
 
-class LiveCourse implements Course{
+class LiveCourse extends Course{
     public function create(): void{
-        echo "You created a live course";
+        $this->type="live";
     }
 }
 
