@@ -70,6 +70,10 @@ if(isset($courses)){
         }
     }
 
+    if ($currentuser['role'] == 'instructor'){
+        echo "<a href='add_course.php'>Add A New Course</a>";
+    }
+
 }
 
 ?>

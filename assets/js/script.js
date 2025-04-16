@@ -3,6 +3,7 @@ function addTopic() {
   
   const newDiv = document.createElement('div');
   newDiv.innerHTML = `Add topic: <input name="topic[]" type="text">
+                      Add content: <input name="lesson_content[]" type="text">
                         Type:
                         <select name="type[]">
                             <option value="lesson">Lesson</option>

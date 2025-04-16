@@ -3,7 +3,6 @@
 class Topic{
     public string $name;
     public string $type;
-    public string $duration;
     public string $content;
 }
 
@@ -20,7 +19,6 @@ abstract class TopicBuilder{
 
     abstract public function addName(string $name): void;
     abstract public function addType(): void;
-    abstract public function addDuration(string $duration): void;
     abstract public function addContent(string $content): void;
 }
 
@@ -32,10 +30,6 @@ class LessonBuilder extends TopicBuilder{
 
     public function addType(): void{
         $this->topic->type = "Lesson";
-    }
-
-    public function addDuration(string $duration): void{
-        $this->topic->duration = $duration;
     }
 
     public function addContent(string $content): void{
@@ -54,10 +48,6 @@ class QuizBuilder extends TopicBuilder{
         $this->topic->type = "Quiz";
     }
 
-    public function addDuration(string $duration): void{
-        $this->topic->duration = $duration;
-    }
-
     public function addContent(string $content): void{
         $this->topic->content = $content;
     }
@@ -74,20 +64,15 @@ class AssignmentBuilder extends TopicBuilder{
         $this->topic->type = "Assignment";
     }
 
-    public function addDuration(string $duration): void{
-        $this->topic->duration = $duration;
-    }
-
     public function addContent(string $content): void{
         $this->topic->content = $content;
     }
 
 }
 
-function CreateTopic(TopicBuilder $builder, string $name, string $duration, string $content){
+function CreateTopic(TopicBuilder $builder, string $name, string $content){
     $builder -> addName($name);
     $builder -> addType();
-    $builder -> addDuration($duration);
     $builder -> addContent($content);
 
     return $builder->returnTopic();

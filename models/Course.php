@@ -1,6 +1,6 @@
 <?php
 
-include 'Topic.php';
+include_once 'Topic.php';
 
 // Factory and Decorator
 
@@ -43,17 +43,19 @@ abstract class Course{
             ':course_id' => $course_id
         ]);
     }
+
+    public function getID(){
+        return $this->id;
+    }
     
     abstract public function create(): void;
 }
 
 class CourseAddOns extends Course{
     protected Course $course;
-    protected TopicBuilder $builder;
 
-    public function __construct(Course $course, TopicBuilder $builder){
+    public function __construct(Course $course){
         $this->course = $course;
-        $this->builder = $builder;
     }
 
     public function create(): void{
@@ -67,8 +69,18 @@ class Lesson extends CourseAddOns{
         $this->addLesson();
     }
 
-    public function addLesson(string $name, string $duration, string $content){
-        $topic = CreateTopic($this->builder, $name, $duration, $content);
+    public function addLesson(string $name, string $content, PDO $db){
+        $topic = new Topic();
+        $builder = new LessonBuilder($topic);
+        $topic = CreateTopic($builder, $name, $content);
+        $course_id = $this->course->getID();
+        $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
+        $stmt->execute([
+            ':name' => $topic -> name,
+            ':content' => $topic -> content,
+            ':lesson_type' => $topic -> type,
+            ':course_id' => $course_id
+        ]);
     }
 }
 
@@ -78,8 +90,18 @@ class Quiz extends CourseAddOns{
         $this->addQuiz();
     }
 
-    public function addQuiz(string $name, string $duration, string $content){
-        $topic = CreateTopic($this->builder, $name, $duration, $content);
+    public function addQuiz(string $name, string $content, PDO $db){
+        $topic = new Topic();
+        $builder = new QuizBuilder($topic);
+        $topic = CreateTopic($builder, $name, $content);
+        $course_id = $this->course->getID();
+        $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
+        $stmt->execute([
+            ':name' => $topic -> name,
+            ':content' => $topic -> content,
+            ':lesson_type' => $topic -> type,
+            ':course_id' => $course_id
+        ]);
     }
 }
 
@@ -89,8 +111,18 @@ class Assignment extends CourseAddOns{
         $this->addAssignment();
     }
 
-    public function addAssignment(string $name, string $duration, string $content){
-        $topic = CreateTopic($this->builder, $name, $duration, $content);
+    public function addAssignment(string $name, string $content, PDO $db){
+        $topic = new Topic();
+        $builder = new AssignmentBuilder($topic);
+        $topic = CreateTopic($builder, $name, $content);
+        $course_id = $this->course->getID();
+        $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
+        $stmt->execute([
+            ':name' => $topic -> name,
+            ':content' => $topic -> content,
+            ':lesson_type' => $topic -> type,
+            ':course_id' => $course_id
+        ]);
     }
 }
 
