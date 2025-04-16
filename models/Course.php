@@ -74,13 +74,26 @@ class Lesson extends CourseAddOns{
         $builder = new LessonBuilder($topic);
         $topic = CreateTopic($builder, $name, $content);
         $course_id = $this->course->getID();
-        $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
-        $stmt->execute([
+
+        $lesson_exists = $db->prepare("SELECT COUNT(*) FROM topics WHERE name= :name AND content= :content AND course_id= :course_id");
+
+        $lesson_exists->execute([
             ':name' => $topic -> name,
             ':content' => $topic -> content,
-            ':lesson_type' => $topic -> type,
             ':course_id' => $course_id
         ]);
+
+        var_dump($lesson_exists->fetchColumn());
+        
+        if($lesson_exists->fetchColumn() == 0){
+            $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
+            $stmt->execute([
+                ':name' => $topic -> name,
+                ':content' => $topic -> content,
+                ':lesson_type' => $topic -> type,
+                ':course_id' => $course_id
+            ]);
+        }
     }
 }
 
@@ -95,13 +108,24 @@ class Quiz extends CourseAddOns{
         $builder = new QuizBuilder($topic);
         $topic = CreateTopic($builder, $name, $content);
         $course_id = $this->course->getID();
-        $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
-        $stmt->execute([
+
+        $lesson_exists = $db->prepare("SELECT COUNT(*) FROM topics WHERE name= :name AND content= :content AND course_id= :course_id");
+
+        $lesson_exists->execute([
             ':name' => $topic -> name,
             ':content' => $topic -> content,
-            ':lesson_type' => $topic -> type,
             ':course_id' => $course_id
         ]);
+        
+        if($lesson_exists->fetchColumn() == 0){
+            $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
+            $stmt->execute([
+                ':name' => $topic -> name,
+                ':content' => $topic -> content,
+                ':lesson_type' => $topic -> type,
+                ':course_id' => $course_id
+            ]);
+        }
     }
 }
 
@@ -116,13 +140,24 @@ class Assignment extends CourseAddOns{
         $builder = new AssignmentBuilder($topic);
         $topic = CreateTopic($builder, $name, $content);
         $course_id = $this->course->getID();
-        $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
-        $stmt->execute([
+
+        $lesson_exists = $db->prepare("SELECT COUNT(*) FROM topics WHERE name= :name AND content= :content AND course_id= :course_id");
+
+        $lesson_exists->execute([
             ':name' => $topic -> name,
             ':content' => $topic -> content,
-            ':lesson_type' => $topic -> type,
             ':course_id' => $course_id
         ]);
+        
+        if($lesson_exists->fetchColumn() == 0){
+            $stmt = $db -> prepare("INSERT INTO topics (name, content, lesson_type, course_id) VALUES (:name, :content, :lesson_type, :course_id)");
+            $stmt->execute([
+                ':name' => $topic -> name,
+                ':content' => $topic -> content,
+                ':lesson_type' => $topic -> type,
+                ':course_id' => $course_id
+            ]);
+        }
     }
 }
 

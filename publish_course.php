@@ -37,26 +37,26 @@ if(isset($_POST['instructor_id'])){
         $courseexists = FALSE;
     }
     
-    $last_value = end($_POST);
     if($courseexists){
         $factory->updateCourse($db, (int) $_POST['course_id']);
-        $new_course = $factory -> createCourse();
-        array_map(function($topic, $lesson_content, $lesson_type){
+        array_map(function($topic, $lesson_content, $lesson_type) use ($factory, $db){
             switch($lesson_type){
-                case 'lesson':
-                    $add_on = new Lesson($new_course);
+                case 'lesson' || 'Lesson':
+                    $add_on = new Lesson($factory -> createCourse());
+                    echo 'topic:' . $topic . 'lesson: ' . $lesson_content;
                     $add_on -> addLesson($topic, $lesson_content, $db);
                     break;
-                case 'quiz':
-                    $add_on = new Quiz($new_course);
+                case 'quiz' || 'Quiz':
+                    $add_on = new Quiz($factory -> createCourse());
                     $add_on -> addQuiz($topic, $lesson_content, $db);
                     break;
-                case 'assignment':
-                    $add_on = new Assignment($new_course);
+                case 'assignment' || 'Assignment':
+                    $add_on = new Assignment($factory -> createCourse());
                     $add_on -> addAssignment($topic, $lesson_content, $db);
                     break;
             }
-        }, $_POST['topic'], $_POST['lesson_content'], $last_value);
+        }, $_POST['topic'], $_POST['lesson_content'], $_POST['lesson_type']);
+        header('Location: dashboard.php');
     } else{
         $course = $factory->pushCourse($db);
         header('Location: dashboard.php');
