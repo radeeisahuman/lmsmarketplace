@@ -22,8 +22,10 @@ if(isset($_POST['course_id']) && isset($_SESSION['loggedin'])){
 
         if(!$course_id){
             $enrollment_manager = new Enrollment();
+            $notify_learner = new NotifyLearner($db, $user_id);
             $finish_enroll = new ConfirmEnrollment($db);
             $enrollment_manager -> register($finish_enroll);
+            $enrollment_manager -> register($notify_learner);
             $enrollment_manager -> notify($_POST['course_id'], $user_id);
             header('Location: dashboard.php');
         } else{

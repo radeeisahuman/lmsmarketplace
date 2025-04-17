@@ -1,7 +1,6 @@
 <?php
 
 include 'partials/header.php';
-include 'config.php';
 include 'models/Users.php';
 
 session_start();

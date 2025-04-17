@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'partials/header.php';
-include 'config.php';
+
 $db = Database::getInstance()->getConnection();
 
 

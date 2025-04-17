@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'partials/header.php';
-include 'config.php';
 $db = Database::getInstance()->getConnection();
 
 if(isset($_GET['course_id']) && isset($_SESSION['loggedin'])){
@@ -67,8 +66,42 @@ if(isset($_GET['course_id']) && isset($_SESSION['loggedin'])){
 }
 
 ?>
+<!--
+Course form UI
+<section class="d-flex justify-content-center align-items-center bg-light" style="height: 100vh;">
+  <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+    <h4 class="mb-3 text-center">Add material</h4>
+    <form action="addtopic.php" method="post" >
+      <div class="mb-3">
+        <label for="topic_name" class="form-label">Name</label>
+        <input type="text" name="topic_name" class="form-control" id="topic_name" required>
+      </div>
+      <div class="mb-3">
+        <label for="duration" class="form-label">Duration</label>
+        <input type="text" name="duration" class="form-control" id="duration" required>
+      </div>
 
-
+      <div class="mb-3">
+        <label for="content" class="form-label">Content</label>
+        <textarea name="content" class="form-control" id="content" required></textarea>
+      </div>
+      <div>
+      <input type="hidden" name="course_id" value="htmlspecialchars($course['id'])">
+      </div>
+      <div class="mb-3">
+        <label for="topic_type" class="form-label">Type</label>
+        <select class="form-select" id="topic_type" name="topic_type" required>
+          <option value="" disabled selected>Select topic type</option>
+          <option value="Lesson">Lesson</option>
+          <option value="Quiz">Quiz</option>
+          <option value="Assignment">Assignment</option>
+        </select>
+      </div>
+      <button type="submit" class="btn text-white w-100" style="background: linear-gradient(45deg,rgb(98, 0, 179),rgb(41, 6, 105)); border: none">Add topic</button>
+    </form>
+  </div>
+</section>
+-->
 
 <?php
 

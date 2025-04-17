@@ -55,7 +55,7 @@ if(isset($_POST['instructor_id'])){
                     $add_on -> addAssignment($topic, $lesson_content, $db);
                     break;
             }
-        }, $_POST['topic'], $_POST['lesson_content'], $_POST['lesson_type']);
+        }, $_POST['topic'], $_POST['lesson_content'], end($_POST));
         header('Location: dashboard.php');
     } else{
         $course = $factory->pushCourse($db);
